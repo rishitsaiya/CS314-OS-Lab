@@ -1,0 +1,3 @@
+https://elixir.ortiz.sh/minix/v3.2.0/source/kernel/arch/i386/arch_clock.c#L325
+
+https://elixir.ortiz.sh/minix/v3.2.0/source/include/minix/u64.h#L157
