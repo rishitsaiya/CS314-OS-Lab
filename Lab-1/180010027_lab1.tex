@@ -1,0 +1,294 @@
+\title{Operating Systems Lab - CS 314} % You may change the title if you want.
+
+\author{Rishit Saiya - 180010027, Assignment - 1}
+
+\date{\today}
+
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{enumitem}
+\usepackage{amsmath,mathtools}
+\usepackage{amssymb}
+\usepackage[super]{nth}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+\begin{document}
+\maketitle
+
+%----------------------------------------------------------------
+\section{Introduction}
+In this lab, the task was to setup up Minix3 Operating System in a VM (Virtual Machine) with a Linux based OS (\href{https://releases.ubuntu.com/20.04/}{Ubuntu 20.04 LTS} here). After that, we had to deploy \href{https://github.com/Stichting-MINIX-Research-Foundation/minix/tree/R3.3.0}{Version R3.3.0} of the \href{https://www.minix3.org}{Official Minix3 OS}. Further in this report, each step towards the setup are explained in detail.
+
+
+%----------------------------------------------------------------
+\section{Getting Minix3 Release}
+
+With the Host OS (Ubuntu 20.04 LTS) as an environment and Virtual Box as a software dependency to setup Virtual Machine, latest Minix3 OS Release ISO was used during setup.
+
+\subsection{VM Setup}
+Some specifications of Minix VM setup:
+\begin{itemize}
+    \item 1 GB RAM Allocation
+    \item 20 GB Hard Disk Space Allocation
+    \item 10 GB \texttt{/home} Space Allocation
+    \item Network Adapter Setting Changed: Attachment set to Bridged Adapter from NAT.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup1.png}
+    \caption{ISO File Loading in Virtual Box}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup2.png}
+    \caption{1 GB RAM Allocation for Minix3}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup3.png}
+    \caption{Creating a Virtual Hard Disk for recovery purposes}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup4.png}
+    \caption{VHD Specifications Setting}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup5.png}
+    \caption{Size is fixed for VHD}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup6.png}
+    \caption{20 GB Hard Disk Space Allocation}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup7.png}
+    \caption{Virtual Box GUI}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup8.png}
+    \caption{Removal of ISO file after setting up}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/VMSetup9.png}
+    \caption{Network Setting in Minix3 VM}
+\end{figure}
+
+\subsection{Post Installation Configuration}
+Further more, in the Minix3, we had to configure the following things as mentioned in the problem statement:
+\begin{itemize}
+    \item Set the root password
+    \item Set the timezone
+    \item Setup openssh
+    \item Update the packages, and run pkgin\_sets to set up all typically useful packages
+\end{itemize}
+
+For configuration, the following script was used. [\href{https://github.com/tejaswivykuntam/OS_LAB/blob/master/setup.sh}{Source}]
+
+\begin{verbatim}
+    #! /bin/sh
+    passwd
+    echo export TZ=Asia/Kolkata > /etc/rc.timezone
+    pkgin update
+    pkgin install openssh
+    mkdir /etc/rc.d/
+    cp /usr/pkg/etc/rc.d/sshd /etc/rc.d/
+    printf 'sshd=YES\n' >> /etc/rc.conf
+    /etc/rc.d/sshd start
+    pkgin update
+    pkgin_sets
+\end{verbatim}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix1.png}
+    \caption{User Login before Configuration}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix2.png}
+    \caption{Minix3 Setup}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix3.png}
+    \caption{Disk Specifications}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix4.png}
+    \caption{10 GB Space Allocation in \texttt{/home}}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix5.png}
+    \caption{Basic Setup Complete}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix6.png}
+    \caption{Reboot}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix7.png}
+    \caption{New Password Configuration} % password: root
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix8.png}
+    \caption{\texttt{pkgin} Updates}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix9.png}
+    \caption{\texttt{pkgin} Update Complete}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix10.png}
+    \caption{\texttt{SSH pkgin} Installation}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix11.png}
+    \caption{SSH Installation Complete}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Minix12.png}
+    \caption{Further Dependencies Installed}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/MinixIP.png}
+    \caption{IP Address - \texttt{ifconfig} Command}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/PasswordReset.png}
+    \caption{Time Zone Set}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/pkginUpdate.png}
+    \caption{Pkgin Updates Done}
+\end{figure}
+
+\section{Getting Minix3 Source and Setting Up Development Environment}
+As instructed, \href{https://www.eclipse.org/downloads/packages/release/2020-12/r/eclipse-ide-cc-developers}{Eclipse IDE for C/C++ Developers} was installed in Host OS as a part of Development Environment.
+
+Minix3 Source Code was obtained from the \href{https://github.com/Stichting-MINIX-Research-Foundation/minix}{GitHub Repository}. As instructed as a part of setting up the environment, the source code was opened in Eclipse.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/SSH.png}
+    \caption{SSH Login through Host OS successful}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/RepoClone.png}
+    \caption{Minix3 Official Repository Cloned (Local Copy)}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Eclipse.png}
+    \caption{Eclipse Setup in Host OS}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Eclipse_Load.png}
+    \caption{Project launched in Host OS}
+\end{figure}
+
+\section{Modifying, building, and testing Minix3}
+
+\subsection{Host OS Git Configuration}
+The given document asks us to checkout into a particular commit namely \\
+\texttt{588a35b9293dcbc89a45881940d00c2ae6d13801} which essentially is the V3.3.0 version of Minix3 OS. So, to do that 
+\texttt{git checkout 588a35b9293dcbc89a45881940d00c2ae6d13801} was used. Once in that commit, a new branch has to be created in order to differentiate each lab and maintain versions of each code. It can be done using \texttt{git checkout -b lab1}, where \texttt{lab1} is the new branch's name.
+
+In order to verify, whether \texttt{lab1} branch is pointing to correct commit, \texttt{git log -3} can be used to see the latest 3 entries in the \texttt{git log}.
+
+\subsection{SCP Transfer}
+To begin with the Minix3 folder was zipped and named as \texttt{minix.zip}. Now, from the Host OS, SCP command was initiated as follows:\\
+\texttt{scp minix.zip root@10.0.0.100:/usr/}. This essentially copies the zip from Host OS to \texttt{/usr/} location in Minix3 VM.
+
+\subsection{Guest OS Make Build Configuration}
+After the \texttt{minix.zip} is copied into the \texttt{/usr/} location, it was unzipped it there using \texttt{unzip minix.zip}. So, essentially now a directory called \texttt{minix} is made and it is supposed to be renamed as \texttt{src}. It can be done using \texttt{mv minix src}. Once it is done, get into \texttt{src/} directory. To build this version, \texttt{make build} was used.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Commit_Checkout.png}
+    \caption{V3.3.0 Commit checkout using Git}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/branch_lab1.png}
+    \caption{New Branch named \texttt{lab1} created and switched}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/git_log.png}
+    \caption{Git Log Verification}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/scp.png}
+    \caption{File Transfer using SCP Transfer}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/makebuild.png}
+    \caption{Make Build of V3.3.0 in progress}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Lab-1/images/Build.png}
+    \caption{Make Build Complete}
+\end{figure}
+%----------------------------------------------------------------
+\end{document}
