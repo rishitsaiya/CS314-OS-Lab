@@ -7,4 +7,4 @@ I have used 'include <bits/stdc++.h>' library in `master-worker.c`. So while com
 g++ master-worker.c -lpthread
 ```
 
-Note: This hasn't changed the fact that all the test cases are passed and Synchronization Primitives are correctly implemented.
+Note: With the help of bits library, all the test cases are passed and Synchronization Primitives are correctly implemented.
