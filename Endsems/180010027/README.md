@@ -1,6 +1,6 @@
 ### README.txt - Rishit Saiya 180010027
 
-I have used 'include <bits/stdc++.h>' library in `master-worker.c`. So while compiling the code, the following command was used:
+I have used `include <bits/stdc++.h>` library in `master-worker.c`. So while compiling the code, the following command was used:
 
 ```
 g++ master-worker.c -lpthread
